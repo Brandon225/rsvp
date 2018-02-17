@@ -3,6 +3,7 @@ import './App.css';
 import GuestList from './GuestList';
 import Counter from './Counter';
 import Header from './Header';
+import MainContent from './MainContent';
 
 class App extends Component {
 
@@ -120,35 +121,33 @@ class App extends Component {
                     newGuestSubmitHandler={this.newGuestSubmitHandler}
                     pendingGuest={this.state.pendingGuest}
                     handleNameInput={this.handleNameInput} />
-                <div className="main">
-                    <div>
-                        <h2>Invitees</h2>
-                        <label>
-                            <input 
-                                type="checkbox" 
-                                onChange={this.toggleFiltered} 
-                                checked={this.state.isFiltered} /> Hide those who haven't responded
-                        </label>
-                    </div>
-                    <Counter 
-                        totalInvited={totalInvited}
-                        numberAttending={numberAttending}
-                        numberUnconfirmed={numberUnconfirmed}
-                        />
-                    
-                    <GuestList 
-                        guests={this.state.guests}
-                        toggleConfirmationAt={this.toggleConfirmationAt}
-                        toggleEditingAt={this.toggleEditingAt} 
-                        setNameAt={this.setNameAt}
-                        isFiltered={this.state.isFiltered}
-                        removeGuestAt={this.removeGuestAt}
-                        pendingGuest={this.state.pendingGuest} />
-
-                </div>
+               <MainContent 
+                    toggleFiltered={this.toggleFiltered}
+                    isFiltered={this.state.isFiltered}
+                    totalInvited={totalInvited}
+                    numberAttending={numberAttending}
+                    numberUnconfirmed={numberUnconfirmed}
+                    guests={this.state.guests}
+                    toggleConfirmationAt={this.toggleConfirmationAt}
+                    toggleEditingAt={this.toggleEditingAt}
+                    setNameAt={this.setNameAt}
+                    removeGuestAt={this.removeGuestAt}
+                    pendingGuest={this.state.pendingGuest} />
             </div>
         );
     }
 }
+
+// toggleFiltered: PropTypes.func.isRequired,
+//     isFiltered: PropTypes.bool.isRequired,
+//         totalInvited: PropTypes.number.isRequired,
+//             numberAttending: PropTypes.number.isRequired,
+//                 numberUnconfirmed: PropTypes.number.isRequired,
+//                     guests: PropTypes.array.isRequired,
+//                         toggleConfirmationAt: PropTypes.func.isRequired,
+//                             toggleEditingAt: PropTypes.func.isRequired,
+//                                 setNameAt: PropTypes.func.isRequired,
+//                                     removeGuestAt: PropTypes.func.isRequired,
+//                                         pendingGuest: PropTypes.string.isRequired
 
 export default App;
