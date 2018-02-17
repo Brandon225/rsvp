@@ -27,7 +27,8 @@ Guest.propTypes = {
     handleConfirmation: PropTypes.func.isRequired,
     handleToggleEditing: PropTypes.func.isRequired,
     setName: PropTypes.func.isRequired,
-    handleRemove: PropTypes.func.isRequired
+    handleRemove: PropTypes.func.isRequired,
+    id: PropTypes.number.isRequired
 }
 
 export default Guest;

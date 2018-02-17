@@ -9,31 +9,22 @@ class App extends Component {
         // track guests
         isFiltered: false,
         pendingGuest: "",
-        guests: [
-            {
-                name: 'Treasure',
-                isConfirmed: false,
-                isEditing: false
-            },
-            {
-                name: 'Nick',
-                isConfirmed: true,
-                isEditing: false                
-            },
-            {
-                name: 'Brandon',
-                isConfirmed: false,
-                isEditing: false                
-            }
-        ]
+        guests: []
     }
 
-    toggleGuestPropertyAt = (property, indexToChange) =>
+    lastGuestId = 0;
+    newGuestId = () => {
+        const id = this.lastGuestId;
+        this.lastGuestId += 1;
+        return id;
+    };
+
+    toggleGuestProperty = (property, id) =>
         this.setState({
-            guests: this.state.guests.map((guest, index) => 
+            guests: this.state.guests.map((guest) => 
             {
-                // console.log(`propert ${property} curr value ${guest[property]} index ${index}`);
-                if (index === indexToChange) {
+                console.log(`propert ${property} curr value ${guest[property]} id ${id}`);
+                if (id === guest.id) {
                     return {
                         ...guest, // transfer all keys and values to the new guest
                         [property]: !guest[property] // update the value of confirmed
@@ -43,11 +34,11 @@ class App extends Component {
             })
         });
     
-    setGuestPropertyAt = (property, value, indexToChange) =>
+    setGuestProperty = (property, value, id) =>
         this.setState({
-            guests: this.state.guests.map((guest, index) => {
-                // console.log(`propert ${property} new value ${value} index ${index}`);
-                if (index === indexToChange) {
+            guests: this.state.guests.map((guest) => {
+                console.log(`propert ${property} new value ${value} id ${id}`);
+                if (guest.id === id) {
                     return {
                         ...guest, // transfer all keys and values to the new guest
                         [property]: value // update the value of confirmed
@@ -57,37 +48,37 @@ class App extends Component {
             })
         });
 
-    toggleConfirmationAt = index =>
-        this.toggleGuestPropertyAt('isConfirmed', index);
+    toggleConfirmation = id =>
+        this.toggleGuestProperty('isConfirmed', id);
     
-    removeGuestAt = index =>
+    removeGuest = id =>
        { 
-           console.log(`removeGuestAt ${index}`);
+           console.log(`removeGuest ${id}`);
            this.setState({
-                guests: [
-                    ...this.state.guests.slice(0, index),
-                    ...this.state.guests.slice(index + 1)
-                ]
+                guests: this.state.guests.filter(guest => id !== guest.id) // only add guests without the remove id
             });
         }
     
-    toggleEditingAt = index =>
-        this.toggleGuestPropertyAt('isEditing', index);
+    toggleEditing = id =>
+        this.toggleGuestProperty('isEditing', id);
     
-    setNameAt = (text, index) => 
-        this.setGuestPropertyAt('name', text, index);
+    setName = (text, id) => 
+        this.setGuestProperty('name', text, id);
 
     handleNameInput = e => 
         this.setState({pendingGuest: e.target.value});
 
+
     newGuestSubmitHandler = e => {
         e.preventDefault();
+        const id = this.newGuestId();
         this.setState({
             guests: [
                 {
                     name: this.state.pendingGuest,
                     isConfirmed: false,
-                    isEditing: false
+                    isEditing: false,
+                    id
                 },
                 ...this.state.guests
             ],
@@ -126,26 +117,14 @@ class App extends Component {
                     numberAttending={numberAttending}
                     numberUnconfirmed={numberUnconfirmed}
                     guests={this.state.guests}
-                    toggleConfirmationAt={this.toggleConfirmationAt}
-                    toggleEditingAt={this.toggleEditingAt}
-                    setNameAt={this.setNameAt}
-                    removeGuestAt={this.removeGuestAt}
+                    toggleConfirmation={this.toggleConfirmation}
+                    toggleEditing={this.toggleEditing}
+                    setName={this.setName}
+                    removeGuest={this.removeGuest}
                     pendingGuest={this.state.pendingGuest} />
             </div>
         );
     }
 }
-
-// toggleFiltered: PropTypes.func.isRequired,
-//     isFiltered: PropTypes.bool.isRequired,
-//         totalInvited: PropTypes.number.isRequired,
-//             numberAttending: PropTypes.number.isRequired,
-//                 numberUnconfirmed: PropTypes.number.isRequired,
-//                     guests: PropTypes.array.isRequired,
-//                         toggleConfirmationAt: PropTypes.func.isRequired,
-//                             toggleEditingAt: PropTypes.func.isRequired,
-//                                 setNameAt: PropTypes.func.isRequired,
-//                                     removeGuestAt: PropTypes.func.isRequired,
-//                                         pendingGuest: PropTypes.string.isRequired
 
 export default App;
