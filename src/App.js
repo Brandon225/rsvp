@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import GuestList from './GuestList';
-import Counter from './Counter';
 import Header from './Header';
 import MainContent from './MainContent';
 

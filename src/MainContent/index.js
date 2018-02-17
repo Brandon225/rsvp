@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import GuestInputForm from "./GuestInputForm";
 
 import GuestList from './GuestList';
 import Counter from './Counter';
